@@ -1,5 +1,18 @@
 {
   "extends": [
-    "config:base"
+    "config:base",
+    ":rebaseStalePrs",
+    ":prNotPending",
+    ":unpublishSafe",
+    ":noUnscheduledUpdates",
+    ":automergeMinor"
+  ],
+  "labels": ["dependencies"],
+  "rangeStrategy": "bump",
+  "packageRules": [
+    {
+      "packageNames": ["jest", "@types/jest", "ts-jest"],
+      "groupName": "jest packages"
+    }
   ]
 }
