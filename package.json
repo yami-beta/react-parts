@@ -1,0 +1,41 @@
+{
+  "name": "@yami-beta/react-parts",
+  "version": "0.0.1",
+  "main": "index.js",
+  "repository": "ssh://git@github.com/yami-beta/react-parts.git",
+  "author": "yami-beta <yami-beta@users.noreply.github.com>",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "lint:eslint": "eslint .",
+    "lint:prettier": "prettier --check .",
+    "lint": "run-p -l lint:eslint lint:prettier",
+    "format:eslint": "eslint --fix .",
+    "format:prettier": "prettier --write .",
+    "format": "run-s -l format:eslint format:prettier",
+    "type-check": "tsc --noEmit",
+    "test": "jest",
+    "clean": "rimraf lib/",
+    "build:lib": "tsc -p tsconfig.build.json",
+    "build": "run-s -l clean build:*"
+  },
+  "devDependencies": {
+    "@testing-library/react-hooks": "^5.0.3",
+    "@types/jest": "^26.0.20",
+    "@typescript-eslint/eslint-plugin": "^4.15.2",
+    "@typescript-eslint/parser": "^4.15.2",
+    "eslint": "^7.20.0",
+    "eslint-config-prettier": "^8.0.0",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-react-hooks": "^4.2.0",
+    "jest": "^26.6.3",
+    "npm-run-all": "^4.1.5",
+    "prettier": "^2.2.1",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
+    "rimraf": "^3.0.2",
+    "ts-jest": "^26.5.1",
+    "ts-node": "^9.1.1",
+    "typescript": "^4.1.5"
+  }
+}
