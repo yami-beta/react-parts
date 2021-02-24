@@ -1,7 +1,12 @@
 import { useState, useCallback } from "react";
 
-export const useSessionStorage = <T>(key: string, initialValue: T) => {
+export const useSessionStorage = <T>(
+  key: string,
+  initialState: T | (() => T)
+) => {
   const [state, setState] = useState(() => {
+    const initialValue =
+      initialState instanceof Function ? initialState() : initialState;
     if (typeof window === "undefined") {
       return initialValue;
     }
