@@ -94,6 +94,28 @@ describe(useSessionStorage.name, () => {
     expect(sessionStorage.getItem(key)).toBe(`{"foo":"bar","one":1}`);
   });
 
+  test("function", () => {
+    const key = "text/function";
+    const { result } = renderHook(() =>
+      useSessionStorage(key, () => {
+        return {
+          foo: "bar",
+          one: 1,
+        };
+      })
+    );
+
+    expect(result.current[0]).toStrictEqual({ foo: "bar", one: 1 });
+    expect(sessionStorage.getItem(key)).toBe(null);
+
+    act(() => {
+      result.current[1]({ foo: "baz", one: 2 });
+    });
+
+    expect(result.current[0]).toStrictEqual({ foo: "baz", one: 2 });
+    expect(sessionStorage.getItem(key)).toBe(`{"foo":"baz","one":2}`);
+  });
+
   test("it should return initial value if JSON.parse() is failed", () => {
     const key = "test/invalid-value";
     sessionStorage.setItem(key, "{one:1}");
