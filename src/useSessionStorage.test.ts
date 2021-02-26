@@ -11,7 +11,7 @@ describe(useSessionStorage.name, () => {
     const { result } = renderHook(() => useSessionStorage(key, 0));
 
     expect(result.current[0]).toBe(0);
-    expect(sessionStorage.getItem(key)).toBe(null);
+    expect(sessionStorage.getItem(key)).toBe("0");
 
     act(() => {
       result.current[1](2);
@@ -33,7 +33,7 @@ describe(useSessionStorage.name, () => {
     const { result } = renderHook(() => useSessionStorage(key, ""));
 
     expect(result.current[0]).toBe("");
-    expect(sessionStorage.getItem(key)).toBe(null);
+    expect(sessionStorage.getItem(key)).toBe(`""`);
 
     act(() => {
       result.current[1]("foo");
@@ -55,7 +55,7 @@ describe(useSessionStorage.name, () => {
     const { result } = renderHook(() => useSessionStorage(key, false));
 
     expect(result.current[0]).toBe(false);
-    expect(sessionStorage.getItem(key)).toBe(null);
+    expect(sessionStorage.getItem(key)).toBe("false");
 
     act(() => {
       result.current[1](true);
@@ -77,7 +77,7 @@ describe(useSessionStorage.name, () => {
     const { result } = renderHook(() => useSessionStorage(key, {}));
 
     expect(result.current[0]).toStrictEqual({});
-    expect(sessionStorage.getItem(key)).toBe(null);
+    expect(sessionStorage.getItem(key)).toBe("{}");
 
     act(() => {
       result.current[1]({ foo: "bar" });
@@ -106,7 +106,7 @@ describe(useSessionStorage.name, () => {
     );
 
     expect(result.current[0]).toStrictEqual({ foo: "bar", one: 1 });
-    expect(sessionStorage.getItem(key)).toBe(null);
+    expect(sessionStorage.getItem(key)).toBe(`{"foo":"bar","one":1}`);
 
     act(() => {
       result.current[1]({ foo: "baz", one: 2 });
@@ -114,6 +114,18 @@ describe(useSessionStorage.name, () => {
 
     expect(result.current[0]).toStrictEqual({ foo: "baz", one: 2 });
     expect(sessionStorage.getItem(key)).toBe(`{"foo":"baz","one":2}`);
+  });
+
+  test("restore from sessionStorage", () => {
+    const key = "test/restore-value";
+    sessionStorage.setItem(key, `{"foo":"bar","one":1}`);
+
+    const { result } = renderHook(() => useSessionStorage(key, {}));
+
+    expect(result.current[0]).toStrictEqual({
+      foo: "bar",
+      one: 1,
+    });
   });
 
   test("it should return initial value if JSON.parse() is failed", () => {
